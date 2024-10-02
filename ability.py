@@ -1,4 +1,4 @@
-from game import Stats
+from character import Stats
 
 class Ability:
     def __init__(self, name, action_change, resource_cost):
