@@ -1,20 +1,44 @@
-from character import Stats
+from .character import Stats
+
+
+class AbilityRegistry:
+    registry = {}
+
+    @classmethod
+    def register(cls, ability_identifier: str, ability_class):
+        """
+        Registers a new ability with the given name and class.
+        """
+        cls.registry[ability_identifier.lower()] = ability_class
+
 
 class Ability:
-    def __init__(self, name, action_change, resource_cost):
-        self.name = name
-        self.action_change = action_change
-        self.resource_cost = resource_cost
+    identifier: str
+    name: str
+    effect: Stats
+    cost: Stats
 
-    def verify(self, solve_token, op_token):
+    def __init_subclass__(cls, **kwargs):
+        """
+        Automatically registers subclasses of Ability in the AbilityRegistry
+        based on their defined 'name' attribute.
+        """
+        super().__init_subclass__(**kwargs)
+        if hasattr(cls, 'identifier'):
+            AbilityRegistry.register(cls.identifier, cls)
+
+    def verify(self, op_token, solve_token):
         return solve_token == self.algorithm(op_token)
 
     def algorithm(self, op_token):
         pass
 
-class Strike(Ability):
-    def __init__(self):
-        super().__init__("Strike", Stats(health=-5), Stats(stamina=-5))
+
+class BasicAttack(Ability):
+    identifier = "attack"
+    name = "Basic Attack"
+    effect = Stats(health=-5)
+    cost = Stats(stamina=-5)
 
     def algorithm(self, op_token):
         correct_solve_token = ""
@@ -22,16 +46,13 @@ class Strike(Ability):
             correct_solve_token += op_token[i]
 
         return correct_solve_token
-    
+
+
 class Heal(Ability):
-    def __init__(self):
-        super().__init__("Heal", Stats(health=5), Stats(mana=-5))
-        
+    identifier = "heal"
+    name = "Heal"
+    effect = Stats(health=5)
+    cost = Stats(mana=-5)
 
     def algorithm(self, op_token):
         return op_token[::-1]
-    
-attack_obj = Strike()
-heal_obj = Heal()
-print(attack_obj.verify("ac", "abc"))
-print(heal_obj.verify("cba", "abc"))
