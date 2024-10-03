@@ -12,9 +12,9 @@ class Ability:
     def algorithm(self, op_token):
         pass
 
-class BasicAttack(Ability):
+class Strike(Ability):
     def __init__(self):
-        super().__init__("Basic Attack", Stats(health=-5), Stats(stamina=-5))
+        super().__init__("Strike", Stats(health=-5), Stats(stamina=-5))
 
     def algorithm(self, op_token):
         correct_solve_token = ""
@@ -31,7 +31,7 @@ class Heal(Ability):
     def algorithm(self, op_token):
         return op_token[::-1]
     
-attack_obj = BasicAttack()
+attack_obj = Strike()
 heal_obj = Heal()
 print(attack_obj.verify("ac", "abc"))
 print(heal_obj.verify("cba", "abc"))
