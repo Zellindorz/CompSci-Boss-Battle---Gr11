@@ -8,7 +8,7 @@ class Stats:
     health: int = 0
     mana: int = 0
     stamina: int = 0
-    intelligence: int = 0
+    attack: int = 0
     agility: int = 0
     strength: int = 0
 
@@ -54,5 +54,5 @@ class Boss:
 
 class Squirrel(Boss):
     _name: str = "squirrel"
-    _base_stats: Stats = Stats(health=5, mana=0, stamina=5, intelligence=1, agility=100, strength=1)
-    _stats: Stats =      Stats(health=5, mana=0, stamina=5, intelligence=1, agility=100, strength=1)
+    _base_stats: Stats = Stats(health=5, mana=0, stamina=5, attack=50, agility=100, strength=1)
+    _stats: Stats =      Stats(health=5, mana=0, stamina=5, attack=50, agility=100, strength=1)
